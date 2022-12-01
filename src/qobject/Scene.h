@@ -11,6 +11,13 @@ class Scene : public QObject {
 public:
     Scene(renderer::RendererWidget* parent);
 
-private:
+signals:
+    /**
+     * @brief Called at a regular interval
+     *
+     * @param deltaTime The amount of time that has passed since
+     *                  the last update in seconds
+     */
+    void tick(float deltaTime);
 };
 }

@@ -1,7 +1,6 @@
 #pragma once
 
-#include <QPushButton>
-#include <QVBoxLayout>
+#include <QSlider>
 #include <QVector2D>
 #include <QWidget>
 
@@ -16,15 +15,21 @@ private:
         bool isRunning;
     } m_Params;
 
-    QVBoxLayout* m_Layout;
-    QPushButton* m_StartButton;
-    QPushButton* m_PauseButton;
-    QPushButton* m_ResetButton;
+    QSlider* m_TankWidthSlider;
+    QSlider* m_TankHeightSlider;
+    QSlider* m_WaterWidthSlider;
+    QSlider* m_WaterHeightSlider;
+    QSlider* m_WaterXSlider;
+    QSlider* m_WaterYSlider;
 
 public:
     LeftPanelWidget(class MainWindow* parent = nullptr);
 
     inline const AnimationParameters& animationParameters() { return m_Params; }
+
+    void setTankDimensionRange(const QVector2D& min, const QVector2D& max);
+    void setWaterDimensionRange(const QVector2D& min, const QVector2D& max);
+    void setWaterPositionRange(const QVector2D& min, const QVector2D& max);
 
 signals:
     void startAnimation();

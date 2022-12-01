@@ -9,4 +9,8 @@ Scene::Scene(const LeftPanelWidget::AnimationParameters& params,
     , m_Params(params)
 {
 }
+
+std::vector<renderer::Shape*> Scene::shapes() const
+{
+}
 }

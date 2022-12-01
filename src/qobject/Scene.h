@@ -7,6 +7,7 @@
 namespace animation_cw3::qobject {
 namespace renderer {
     class RendererWidget;
+    class Shape;
 }
 class Scene : public QObject {
     Q_OBJECT
@@ -14,12 +15,18 @@ class Scene : public QObject {
 private:
     const LeftPanelWidget::AnimationParameters& m_Params;
 
+    renderer::Shape* m_Tank;
+    renderer::Shape* m_Water;
+    renderer::Shape* m_Ground;
+
 public:
     Scene(
         const LeftPanelWidget::AnimationParameters& params,
         renderer::RendererWidget* parent);
 
     inline const LeftPanelWidget::AnimationParameters& animationParameters() const { return m_Params; }
+
+    std::vector<renderer::Shape*> shapes() const;
 
 signals:
     /**

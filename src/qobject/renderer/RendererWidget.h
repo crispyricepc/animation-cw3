@@ -2,17 +2,22 @@
 
 #include "../Scene.h"
 
+#include <QOpenGLFunctions_4_5_Core>
 #include <QOpenGLWidget>
 
 namespace animation_cw3::qobject::renderer {
-class RendererWidget : public QOpenGLWidget {
+class RendererWidget : public QOpenGLWidget, protected QOpenGLFunctions_4_5_Core {
     Q_OBJECT
 
 private:
     Scene* m_Scene;
 
 public:
-    RendererWidget(QWidget* parent = nullptr);
+    RendererWidget(
+        const LeftPanelWidget::AnimationParameters& params,
+        QWidget* parent = nullptr);
+
+    inline const Scene* scene() { return m_Scene; }
 
 private:
     void initializeGL() override;

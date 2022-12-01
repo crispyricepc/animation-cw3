@@ -1,5 +1,7 @@
 #pragma once
 
+#include "LeftPanelWidget.h"
+
 #include <QObject>
 
 namespace animation_cw3::qobject {
@@ -8,8 +10,16 @@ namespace renderer {
 }
 class Scene : public QObject {
     Q_OBJECT
+
+private:
+    const LeftPanelWidget::AnimationParameters& m_Params;
+
 public:
-    Scene(renderer::RendererWidget* parent);
+    Scene(
+        const LeftPanelWidget::AnimationParameters& params,
+        renderer::RendererWidget* parent);
+
+    inline const LeftPanelWidget::AnimationParameters& animationParameters() const { return m_Params; }
 
 signals:
     /**

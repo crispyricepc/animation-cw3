@@ -6,7 +6,7 @@ qt6_dep = dependency('qt6', modules : ['Widgets', 'OpenGLWidgets'])
 qobjects = qt6.compile_moc(
   headers : [
     'src/qobject/renderer/RendererWidget.h',
-    'src/qobject/renderer/RendererMesh.h',
+    'src/qobject/renderer/Shape.h',
     'src/qobject/LeftPanelWidget.h',
     'src/qobject/MainWindow.h',
     'src/qobject/Scene.h',
@@ -17,7 +17,7 @@ qobjects = qt6.compile_moc(
 sources = [
   'src/main.cpp',
   'src/qobject/renderer/RendererWidget.cpp',
-  'src/qobject/renderer/RendererMesh.cpp',
+  'src/qobject/renderer/Shape.cpp',
   'src/qobject/LeftPanelWidget.cpp',
   'src/qobject/MainWindow.cpp',
   'src/qobject/Scene.cpp',

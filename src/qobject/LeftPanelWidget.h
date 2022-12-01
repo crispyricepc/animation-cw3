@@ -7,13 +7,16 @@
 namespace animation_cw3::qobject {
 class LeftPanelWidget : public QWidget {
     Q_OBJECT
-private:
+public:
     struct AnimationParameters {
         QVector2D tankDimensions; // Dimensions of the tank in meters
         QVector2D waterDimensions; // Initial dimensions of the water in the tank in meters
         QVector2D initialWaterPosition; // Initial position of the water in the tank in meters
         bool isRunning;
-    } m_Params;
+    };
+
+private:
+    AnimationParameters m_Params;
 
     QSlider* m_TankWidthSlider;
     QSlider* m_TankHeightSlider;
@@ -35,5 +38,7 @@ signals:
     void startAnimation();
     void pauseAnimation();
     void resetAnimation();
+
+    void animationParametersChanged(const AnimationParameters& params);
 };
 }

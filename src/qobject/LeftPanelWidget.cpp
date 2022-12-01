@@ -73,21 +73,27 @@ LeftPanelWidget::LeftPanelWidget(MainWindow* parent)
     m_WaterYSlider = createLabelledSlider("Y", sliderGroupBox, sliderGroupBox->layout());
     connect(m_TankWidthSlider, &QSlider::valueChanged, this, [this](int value) {
         m_Params.tankDimensions.setX(value * SLIDER_INTERVAL);
+        emit animationParametersChanged(animationParameters());
     });
     connect(m_TankHeightSlider, &QSlider::valueChanged, this, [this](int value) {
         m_Params.tankDimensions.setY(value * SLIDER_INTERVAL);
+        emit animationParametersChanged(animationParameters());
     });
     connect(m_WaterWidthSlider, &QSlider::valueChanged, this, [this](int value) {
         m_Params.waterDimensions.setX(value * SLIDER_INTERVAL);
+        emit animationParametersChanged(animationParameters());
     });
     connect(m_WaterHeightSlider, &QSlider::valueChanged, this, [this](int value) {
         m_Params.waterDimensions.setY(value * SLIDER_INTERVAL);
+        emit animationParametersChanged(animationParameters());
     });
     connect(m_WaterXSlider, &QSlider::valueChanged, this, [this](int value) {
         m_Params.initialWaterPosition.setX(value * SLIDER_INTERVAL);
+        emit animationParametersChanged(animationParameters());
     });
     connect(m_WaterYSlider, &QSlider::valueChanged, this, [this](int value) {
         m_Params.initialWaterPosition.setY(value * SLIDER_INTERVAL);
+        emit animationParametersChanged(animationParameters());
     });
 
     // Layout

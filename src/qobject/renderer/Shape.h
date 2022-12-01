@@ -3,10 +3,10 @@
 #include <QObject>
 
 namespace animation_cw3::qobject::renderer {
-class RendererMesh : public QObject {
+class Shape : public QObject {
     Q_OBJECT
 public:
-    RendererMesh(class RendererWidget* parent);
+    Shape(class Scene* parent);
 
 private:
 };

@@ -14,6 +14,7 @@ class Scene : public QObject {
 
 private:
     const LeftPanelWidget::AnimationParameters& m_Params;
+    std::vector<SceneObject*> m_Objects;
 
 public:
     Scene(
@@ -22,7 +23,7 @@ public:
 
     inline const LeftPanelWidget::AnimationParameters& animationParameters() const { return m_Params; }
 
-    std::vector<SceneObject> objects() const;
+    inline const std::vector<SceneObject*>& objects() const { return m_Objects; }
 
 signals:
     /**

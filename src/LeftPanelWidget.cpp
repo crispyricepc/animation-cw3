@@ -63,35 +63,35 @@ LeftPanelWidget::LeftPanelWidget(MainWindow* parent)
     auto sliderGroupBox = new QGroupBox("Animation Parameters", this);
     sliderGroupBox->setLayout(new QVBoxLayout(sliderGroupBox));
     sliderGroupBox->layout()->addWidget(new QLabel("Tank Dimensions", sliderGroupBox));
-    m_TankWidthSlider = createLabelledSlider("W", sliderGroupBox, sliderGroupBox->layout());
-    m_TankHeightSlider = createLabelledSlider("H", sliderGroupBox, sliderGroupBox->layout());
+    p_TankWidthSlider = createLabelledSlider("W", sliderGroupBox, sliderGroupBox->layout());
+    p_TankHeightSlider = createLabelledSlider("H", sliderGroupBox, sliderGroupBox->layout());
     sliderGroupBox->layout()->addWidget(new QLabel("Water Dimensions", sliderGroupBox));
-    m_WaterWidthSlider = createLabelledSlider("W", sliderGroupBox, sliderGroupBox->layout());
-    m_WaterHeightSlider = createLabelledSlider("H", sliderGroupBox, sliderGroupBox->layout());
+    p_WaterWidthSlider = createLabelledSlider("W", sliderGroupBox, sliderGroupBox->layout());
+    p_WaterHeightSlider = createLabelledSlider("H", sliderGroupBox, sliderGroupBox->layout());
     sliderGroupBox->layout()->addWidget(new QLabel("Water Position", sliderGroupBox));
-    m_WaterXSlider = createLabelledSlider("X", sliderGroupBox, sliderGroupBox->layout());
-    m_WaterYSlider = createLabelledSlider("Y", sliderGroupBox, sliderGroupBox->layout());
-    connect(m_TankWidthSlider, &QSlider::valueChanged, this, [this](int value) {
+    p_WaterXSlider = createLabelledSlider("X", sliderGroupBox, sliderGroupBox->layout());
+    p_WaterYSlider = createLabelledSlider("Y", sliderGroupBox, sliderGroupBox->layout());
+    connect(p_TankWidthSlider, &QSlider::valueChanged, this, [this](int value) {
         m_Params.tankDimensions.setX(value * SLIDER_INTERVAL);
         emit animationParametersChanged(animationParameters());
     });
-    connect(m_TankHeightSlider, &QSlider::valueChanged, this, [this](int value) {
+    connect(p_TankHeightSlider, &QSlider::valueChanged, this, [this](int value) {
         m_Params.tankDimensions.setY(value * SLIDER_INTERVAL);
         emit animationParametersChanged(animationParameters());
     });
-    connect(m_WaterWidthSlider, &QSlider::valueChanged, this, [this](int value) {
+    connect(p_WaterWidthSlider, &QSlider::valueChanged, this, [this](int value) {
         m_Params.waterDimensions.setX(value * SLIDER_INTERVAL);
         emit animationParametersChanged(animationParameters());
     });
-    connect(m_WaterHeightSlider, &QSlider::valueChanged, this, [this](int value) {
+    connect(p_WaterHeightSlider, &QSlider::valueChanged, this, [this](int value) {
         m_Params.waterDimensions.setY(value * SLIDER_INTERVAL);
         emit animationParametersChanged(animationParameters());
     });
-    connect(m_WaterXSlider, &QSlider::valueChanged, this, [this](int value) {
+    connect(p_WaterXSlider, &QSlider::valueChanged, this, [this](int value) {
         m_Params.initialWaterPosition.setX(value * SLIDER_INTERVAL);
         emit animationParametersChanged(animationParameters());
     });
-    connect(m_WaterYSlider, &QSlider::valueChanged, this, [this](int value) {
+    connect(p_WaterYSlider, &QSlider::valueChanged, this, [this](int value) {
         m_Params.initialWaterPosition.setY(value * SLIDER_INTERVAL);
         emit animationParametersChanged(animationParameters());
     });

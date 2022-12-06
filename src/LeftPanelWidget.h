@@ -18,12 +18,12 @@ public:
 private:
     AnimationParameters m_Params;
 
-    QSlider* m_TankWidthSlider;
-    QSlider* m_TankHeightSlider;
-    QSlider* m_WaterWidthSlider;
-    QSlider* m_WaterHeightSlider;
-    QSlider* m_WaterXSlider;
-    QSlider* m_WaterYSlider;
+    QSlider* p_TankWidthSlider;
+    QSlider* p_TankHeightSlider;
+    QSlider* p_WaterWidthSlider;
+    QSlider* p_WaterHeightSlider;
+    QSlider* p_WaterXSlider;
+    QSlider* p_WaterYSlider;
 
 public:
     LeftPanelWidget(class MainWindow* parent = nullptr);

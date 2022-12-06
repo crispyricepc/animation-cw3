@@ -4,7 +4,7 @@
 #include <QVector2D>
 #include <QWidget>
 
-namespace animation_cw3::qobject {
+namespace animation_cw3 {
 class LeftPanelWidget : public QWidget {
     Q_OBJECT
 public:

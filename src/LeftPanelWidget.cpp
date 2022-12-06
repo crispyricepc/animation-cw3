@@ -9,7 +9,7 @@
 #include <QSlider>
 #include <QVBoxLayout>
 
-namespace animation_cw3::qobject {
+namespace animation_cw3 {
 const float SLIDER_INTERVAL = .01;
 
 QSlider* createLabelledSlider(

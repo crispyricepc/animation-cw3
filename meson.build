@@ -9,6 +9,9 @@ qobjects = qt6.compile_moc(
     'src/MainWindow.h',
   ]
 )
+qrc = qt6.compile_resources(
+  sources : 'resources.qrc'
+)
 
 sources = [
   'src/main.cpp',
@@ -17,7 +20,7 @@ sources = [
 ]
 
 executable('animation-cw3',
-  sources : sources + qobjects,
+  sources : sources + qobjects + qrc,
   dependencies : [
     qt6_dep
   ]

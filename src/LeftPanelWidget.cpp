@@ -102,4 +102,40 @@ LeftPanelWidget::LeftPanelWidget(MainWindow* parent)
     layout()->addWidget(buttonGroupBox);
     layout()->addWidget(sliderGroupBox);
 }
+
+void LeftPanelWidget::setTankDimensionRange(const QVector2D& min, const QVector2D& max)
+{
+    p_TankWidthSlider->setRange(min.x() / SLIDER_INTERVAL, max.x() / SLIDER_INTERVAL);
+    p_TankHeightSlider->setRange(min.y() / SLIDER_INTERVAL, max.y() / SLIDER_INTERVAL);
+}
+
+void LeftPanelWidget::setWaterDimensionRange(const QVector2D& min, const QVector2D& max)
+{
+    p_WaterWidthSlider->setRange(min.x() / SLIDER_INTERVAL, max.x() / SLIDER_INTERVAL);
+    p_WaterHeightSlider->setRange(min.y() / SLIDER_INTERVAL, max.y() / SLIDER_INTERVAL);
+}
+
+void LeftPanelWidget::setWaterPositionRange(const QVector2D& min, const QVector2D& max)
+{
+    p_WaterXSlider->setRange(min.x() / SLIDER_INTERVAL, max.x() / SLIDER_INTERVAL);
+    p_WaterYSlider->setRange(min.y() / SLIDER_INTERVAL, max.y() / SLIDER_INTERVAL);
+}
+
+void LeftPanelWidget::setTankDimensions(const QVector2D& dimensions)
+{
+    p_TankWidthSlider->setValue(dimensions.x() / SLIDER_INTERVAL);
+    p_TankHeightSlider->setValue(dimensions.y() / SLIDER_INTERVAL);
+}
+
+void LeftPanelWidget::setWaterDimensions(const QVector2D& dimensions)
+{
+    p_WaterWidthSlider->setValue(dimensions.x() / SLIDER_INTERVAL);
+    p_WaterHeightSlider->setValue(dimensions.y() / SLIDER_INTERVAL);
+}
+
+void LeftPanelWidget::setWaterPosition(const QVector2D& position)
+{
+    p_WaterXSlider->setValue(position.x() / SLIDER_INTERVAL);
+    p_WaterYSlider->setValue(position.y() / SLIDER_INTERVAL);
+}
 }

@@ -1,20 +1,14 @@
 #pragma once
 
+#include "AnimationParameters.h"
+
 #include <QSlider>
-#include <QVector2D>
 #include <QWidget>
 
 namespace animation_cw3 {
 class LeftPanelWidget : public QWidget {
     Q_OBJECT
 public:
-    struct AnimationParameters {
-        QVector2D tankDimensions; // Dimensions of the tank in meters
-        QVector2D waterDimensions; // Initial dimensions of the water in the tank in meters
-        QVector2D initialWaterPosition; // Initial position of the water in the tank in meters
-        bool isRunning; // Is the animation currently running
-    };
-
 private:
     AnimationParameters m_Params;
 
@@ -33,6 +27,10 @@ public:
     void setTankDimensionRange(const QVector2D& min, const QVector2D& max);
     void setWaterDimensionRange(const QVector2D& min, const QVector2D& max);
     void setWaterPositionRange(const QVector2D& min, const QVector2D& max);
+
+    void setTankDimensions(const QVector2D& dimensions);
+    void setWaterDimensions(const QVector2D& dimensions);
+    void setWaterPosition(const QVector2D& position);
 
 signals:
     void startAnimation();

@@ -2,6 +2,8 @@
 
 #include "LeftPanelWidget.h"
 
+#include "Animation.h"
+
 #include <QHBoxLayout>
 #include <QWidget>
 #include <Qt3DCore/QEntity>
@@ -14,7 +16,7 @@ private:
     LeftPanelWidget* p_LeftPanel;
     Qt3DExtras::Qt3DWindow* p_3DWindow;
 
-    Qt3DCore::QEntity* p_SceneRoot;
+    Animation* p_Animation;
 
 public:
     MainWindow(QWidget* parent = nullptr);

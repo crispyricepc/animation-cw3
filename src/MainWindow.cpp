@@ -21,9 +21,15 @@ MainWindow::MainWindow(QWidget* parent)
     p_LeftPanel->setTankDimensionRange({ .5, .5 }, { 10, 10 });
     p_LeftPanel->setWaterDimensionRange({ .3, .3 }, { 8, 8 });
     p_LeftPanel->setWaterPositionRange({ -4, -4 }, { 4, 4 });
+    p_LeftPanel->setFluidDensityRange(1, 10);
+    p_LeftPanel->setViscosityRange(0.1, 10);
+    p_LeftPanel->setDeltaRange(0.1, 10);
     p_LeftPanel->setTankDimensions({ 5, 5 });
     p_LeftPanel->setWaterDimensions({ 2, 3 });
     p_LeftPanel->setWaterPosition({ 4, -2 });
+    p_LeftPanel->setFluidDensity(5);
+    p_LeftPanel->setViscosity(1);
+    p_LeftPanel->setDelta(1);
 
     auto layout = new QHBoxLayout(this);
     setLayout(layout);

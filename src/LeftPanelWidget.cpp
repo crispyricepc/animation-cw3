@@ -37,12 +37,6 @@ QSlider* createLabelledSlider(
 
 LeftPanelWidget::LeftPanelWidget(MainWindow* parent)
     : QWidget(parent)
-    , m_Params({
-          .tankDimensions = { 5, 5 },
-          .waterDimensions = { 2, 3 },
-          .initialWaterPosition = { 0, 4 },
-          .isRunning = false,
-      })
 {
     setMaximumWidth(350);
 
@@ -65,12 +59,17 @@ LeftPanelWidget::LeftPanelWidget(MainWindow* parent)
     sliderGroupBox->layout()->addWidget(new QLabel("Tank Dimensions", sliderGroupBox));
     p_TankWidthSlider = createLabelledSlider("W", sliderGroupBox, sliderGroupBox->layout());
     p_TankHeightSlider = createLabelledSlider("H", sliderGroupBox, sliderGroupBox->layout());
-    sliderGroupBox->layout()->addWidget(new QLabel("Water Dimensions", sliderGroupBox));
-    p_WaterWidthSlider = createLabelledSlider("W", sliderGroupBox, sliderGroupBox->layout());
-    p_WaterHeightSlider = createLabelledSlider("H", sliderGroupBox, sliderGroupBox->layout());
-    sliderGroupBox->layout()->addWidget(new QLabel("Water Position", sliderGroupBox));
-    p_WaterXSlider = createLabelledSlider("X", sliderGroupBox, sliderGroupBox->layout());
-    p_WaterYSlider = createLabelledSlider("Y", sliderGroupBox, sliderGroupBox->layout());
+    sliderGroupBox->layout()->addWidget(new QLabel("Fluid Dimensions", sliderGroupBox));
+    p_FluidWidthSlider = createLabelledSlider("W", sliderGroupBox, sliderGroupBox->layout());
+    p_FluidHeightSlider = createLabelledSlider("H", sliderGroupBox, sliderGroupBox->layout());
+    sliderGroupBox->layout()->addWidget(new QLabel("Fluid Position", sliderGroupBox));
+    p_FluidXSlider = createLabelledSlider("X", sliderGroupBox, sliderGroupBox->layout());
+    p_FluidYSlider = createLabelledSlider("Y", sliderGroupBox, sliderGroupBox->layout());
+    sliderGroupBox->layout()->addWidget(new QLabel("Fluid Properties", sliderGroupBox));
+    p_FluidDensitySlider = createLabelledSlider("g", sliderGroupBox, sliderGroupBox->layout());
+    p_ViscositySlider = createLabelledSlider("μ", sliderGroupBox, sliderGroupBox->layout());
+    p_DeltaSlider = createLabelledSlider("Δ", sliderGroupBox, sliderGroupBox->layout());
+
     connect(p_TankWidthSlider, &QSlider::valueChanged, this, [this](int value) {
         m_Params.tankDimensions.setX(value * SLIDER_INTERVAL);
         emit animationParametersChanged(animationParameters());
@@ -79,20 +78,32 @@ LeftPanelWidget::LeftPanelWidget(MainWindow* parent)
         m_Params.tankDimensions.setY(value * SLIDER_INTERVAL);
         emit animationParametersChanged(animationParameters());
     });
-    connect(p_WaterWidthSlider, &QSlider::valueChanged, this, [this](int value) {
-        m_Params.waterDimensions.setX(value * SLIDER_INTERVAL);
+    connect(p_FluidWidthSlider, &QSlider::valueChanged, this, [this](int value) {
+        m_Params.fluidDimensions.setX(value * SLIDER_INTERVAL);
         emit animationParametersChanged(animationParameters());
     });
-    connect(p_WaterHeightSlider, &QSlider::valueChanged, this, [this](int value) {
-        m_Params.waterDimensions.setY(value * SLIDER_INTERVAL);
+    connect(p_FluidHeightSlider, &QSlider::valueChanged, this, [this](int value) {
+        m_Params.fluidDimensions.setY(value * SLIDER_INTERVAL);
         emit animationParametersChanged(animationParameters());
     });
-    connect(p_WaterXSlider, &QSlider::valueChanged, this, [this](int value) {
+    connect(p_FluidXSlider, &QSlider::valueChanged, this, [this](int value) {
         m_Params.initialWaterPosition.setX(value * SLIDER_INTERVAL);
         emit animationParametersChanged(animationParameters());
     });
-    connect(p_WaterYSlider, &QSlider::valueChanged, this, [this](int value) {
+    connect(p_FluidYSlider, &QSlider::valueChanged, this, [this](int value) {
         m_Params.initialWaterPosition.setY(value * SLIDER_INTERVAL);
+        emit animationParametersChanged(animationParameters());
+    });
+    connect(p_FluidDensitySlider, &QSlider::valueChanged, this, [this](int value) {
+        m_Params.fluidDensity = value * SLIDER_INTERVAL;
+        emit animationParametersChanged(animationParameters());
+    });
+    connect(p_ViscositySlider, &QSlider::valueChanged, this, [this](int value) {
+        m_Params.viscosity = value * SLIDER_INTERVAL;
+        emit animationParametersChanged(animationParameters());
+    });
+    connect(p_DeltaSlider, &QSlider::valueChanged, this, [this](int value) {
+        m_Params.delta = value * SLIDER_INTERVAL;
         emit animationParametersChanged(animationParameters());
     });
 
@@ -111,14 +122,29 @@ void LeftPanelWidget::setTankDimensionRange(const QVector2D& min, const QVector2
 
 void LeftPanelWidget::setWaterDimensionRange(const QVector2D& min, const QVector2D& max)
 {
-    p_WaterWidthSlider->setRange(min.x() / SLIDER_INTERVAL, max.x() / SLIDER_INTERVAL);
-    p_WaterHeightSlider->setRange(min.y() / SLIDER_INTERVAL, max.y() / SLIDER_INTERVAL);
+    p_FluidWidthSlider->setRange(min.x() / SLIDER_INTERVAL, max.x() / SLIDER_INTERVAL);
+    p_FluidHeightSlider->setRange(min.y() / SLIDER_INTERVAL, max.y() / SLIDER_INTERVAL);
 }
 
 void LeftPanelWidget::setWaterPositionRange(const QVector2D& min, const QVector2D& max)
 {
-    p_WaterXSlider->setRange(min.x() / SLIDER_INTERVAL, max.x() / SLIDER_INTERVAL);
-    p_WaterYSlider->setRange(min.y() / SLIDER_INTERVAL, max.y() / SLIDER_INTERVAL);
+    p_FluidXSlider->setRange(min.x() / SLIDER_INTERVAL, max.x() / SLIDER_INTERVAL);
+    p_FluidYSlider->setRange(min.y() / SLIDER_INTERVAL, max.y() / SLIDER_INTERVAL);
+}
+
+void LeftPanelWidget::setFluidDensityRange(float min, float max)
+{
+    p_FluidDensitySlider->setRange(min / SLIDER_INTERVAL, max / SLIDER_INTERVAL);
+}
+
+void LeftPanelWidget::setViscosityRange(float min, float max)
+{
+    p_ViscositySlider->setRange(min / SLIDER_INTERVAL, max / SLIDER_INTERVAL);
+}
+
+void LeftPanelWidget::setDeltaRange(float min, float max)
+{
+    p_DeltaSlider->setRange(min / SLIDER_INTERVAL, max / SLIDER_INTERVAL);
 }
 
 void LeftPanelWidget::setTankDimensions(const QVector2D& dimensions)
@@ -129,13 +155,28 @@ void LeftPanelWidget::setTankDimensions(const QVector2D& dimensions)
 
 void LeftPanelWidget::setWaterDimensions(const QVector2D& dimensions)
 {
-    p_WaterWidthSlider->setValue(dimensions.x() / SLIDER_INTERVAL);
-    p_WaterHeightSlider->setValue(dimensions.y() / SLIDER_INTERVAL);
+    p_FluidWidthSlider->setValue(dimensions.x() / SLIDER_INTERVAL);
+    p_FluidHeightSlider->setValue(dimensions.y() / SLIDER_INTERVAL);
 }
 
 void LeftPanelWidget::setWaterPosition(const QVector2D& position)
 {
-    p_WaterXSlider->setValue(position.x() / SLIDER_INTERVAL);
-    p_WaterYSlider->setValue(position.y() / SLIDER_INTERVAL);
+    p_FluidXSlider->setValue(position.x() / SLIDER_INTERVAL);
+    p_FluidYSlider->setValue(position.y() / SLIDER_INTERVAL);
+}
+
+void LeftPanelWidget::setFluidDensity(float density)
+{
+    p_FluidDensitySlider->setValue(density / SLIDER_INTERVAL);
+}
+
+void LeftPanelWidget::setViscosity(float viscosity)
+{
+    p_ViscositySlider->setValue(viscosity / SLIDER_INTERVAL);
+}
+
+void LeftPanelWidget::setDelta(float delta)
+{
+    p_DeltaSlider->setValue(delta / SLIDER_INTERVAL);
 }
 }

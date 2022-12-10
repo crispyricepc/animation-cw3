@@ -14,10 +14,14 @@ private:
 
     QSlider* p_TankWidthSlider;
     QSlider* p_TankHeightSlider;
-    QSlider* p_WaterWidthSlider;
-    QSlider* p_WaterHeightSlider;
-    QSlider* p_WaterXSlider;
-    QSlider* p_WaterYSlider;
+    QSlider* p_FluidWidthSlider;
+    QSlider* p_FluidHeightSlider;
+    QSlider* p_FluidXSlider;
+    QSlider* p_FluidYSlider;
+
+    QSlider* p_FluidDensitySlider;
+    QSlider* p_ViscositySlider;
+    QSlider* p_DeltaSlider;
 
 public:
     LeftPanelWidget(class MainWindow* parent = nullptr);
@@ -27,10 +31,16 @@ public:
     void setTankDimensionRange(const QVector2D& min, const QVector2D& max);
     void setWaterDimensionRange(const QVector2D& min, const QVector2D& max);
     void setWaterPositionRange(const QVector2D& min, const QVector2D& max);
+    void setFluidDensityRange(float min, float max);
+    void setViscosityRange(float min, float max);
+    void setDeltaRange(float min, float max);
 
     void setTankDimensions(const QVector2D& dimensions);
     void setWaterDimensions(const QVector2D& dimensions);
     void setWaterPosition(const QVector2D& position);
+    void setFluidDensity(float density);
+    void setViscosity(float viscosity);
+    void setDelta(float delta);
 
 signals:
     void startAnimation();

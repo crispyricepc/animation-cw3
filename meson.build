@@ -8,6 +8,7 @@ qobjects = qt6.compile_moc(
     'src/Animation.h',
     'src/LeftPanelWidget.h',
     'src/MainWindow.h',
+    'src/Particle.h',
   ]
 )
 qrc = qt6.compile_resources(

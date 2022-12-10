@@ -22,8 +22,8 @@ MainWindow::MainWindow(QWidget* parent)
     p_LeftPanel->setWaterDimensionRange({ .3, .3 }, { 8, 8 });
     p_LeftPanel->setWaterPositionRange({ -4, -4 }, { 4, 4 });
     p_LeftPanel->setTankDimensions({ 5, 5 });
-    p_LeftPanel->setWaterDimensions({ 4, 4 });
-    p_LeftPanel->setWaterPosition({ 0, 0 });
+    p_LeftPanel->setWaterDimensions({ 2, 3 });
+    p_LeftPanel->setWaterPosition({ 4, -2 });
 
     auto layout = new QHBoxLayout(this);
     setLayout(layout);

@@ -45,9 +45,30 @@ LeftPanelWidget::LeftPanelWidget(MainWindow* parent)
     auto startButton = new QPushButton("Start", buttonGroupBox);
     auto pauseButton = new QPushButton("Pause", buttonGroupBox);
     auto resetButton = new QPushButton("Reset", buttonGroupBox);
-    connect(startButton, &QPushButton::clicked, this, &LeftPanelWidget::startAnimation);
-    connect(pauseButton, &QPushButton::clicked, this, &LeftPanelWidget::pauseAnimation);
-    connect(resetButton, &QPushButton::clicked, this, &LeftPanelWidget::resetAnimation);
+    connect(startButton, &QPushButton::clicked, this, [this, startButton, pauseButton, resetButton] {
+        startButton->setEnabled(false);
+        pauseButton->setEnabled(true);
+        resetButton->setEnabled(true);
+        emit startAnimation();
+    });
+    connect(pauseButton, &QPushButton::clicked, this, [this, pauseButton] {
+        if (m_Params.isRunning) {
+            pauseButton->setText("Resume");
+            m_Params.isRunning = false;
+            emit pauseAnimation();
+        } else {
+            pauseButton->setText("Pause");
+            m_Params.isRunning = true;
+            emit resumeAnimation();
+        }
+    });
+    connect(resetButton, &QPushButton::clicked, this, [this, startButton, pauseButton, resetButton] {
+        startButton->setEnabled(true);
+        pauseButton->setEnabled(false);
+        pauseButton->setText("Pause");
+        resetButton->setEnabled(false);
+        emit resetAnimation();
+    });
     buttonGroupBox->setLayout(new QHBoxLayout(buttonGroupBox));
     buttonGroupBox->layout()->addWidget(startButton);
     buttonGroupBox->layout()->addWidget(pauseButton);
@@ -112,6 +133,9 @@ LeftPanelWidget::LeftPanelWidget(MainWindow* parent)
     layout()->setAlignment(Qt::AlignTop);
     layout()->addWidget(buttonGroupBox);
     layout()->addWidget(sliderGroupBox);
+
+    // Reset animation
+    resetButton->click();
 }
 
 void LeftPanelWidget::setTankDimensionRange(const QVector2D& min, const QVector2D& max)

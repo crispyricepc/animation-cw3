@@ -45,6 +45,7 @@ public:
 signals:
     void startAnimation();
     void pauseAnimation();
+    void resumeAnimation();
     void resetAnimation();
 
     void animationParametersChanged(const AnimationParameters& params);

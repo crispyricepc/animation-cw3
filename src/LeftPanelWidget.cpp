@@ -101,22 +101,32 @@ LeftPanelWidget::LeftPanelWidget(MainWindow* parent)
     });
     connect(p_FluidWidthSlider, &QSlider::valueChanged, this, [this](int value) {
         m_Params.fluidDimensions.setX(value * SLIDER_INTERVAL);
+    });
+    connect(p_FluidWidthSlider, &QSlider::sliderReleased, this, [this]() {
         emit animationParametersChanged(animationParameters());
     });
     connect(p_FluidHeightSlider, &QSlider::valueChanged, this, [this](int value) {
         m_Params.fluidDimensions.setY(value * SLIDER_INTERVAL);
+    });
+    connect(p_FluidHeightSlider, &QSlider::sliderReleased, this, [this]() {
         emit animationParametersChanged(animationParameters());
     });
     connect(p_FluidXSlider, &QSlider::valueChanged, this, [this](int value) {
         m_Params.initialWaterPosition.setX(value * SLIDER_INTERVAL);
+    });
+    connect(p_FluidXSlider, &QSlider::sliderReleased, this, [this]() {
         emit animationParametersChanged(animationParameters());
     });
     connect(p_FluidYSlider, &QSlider::valueChanged, this, [this](int value) {
         m_Params.initialWaterPosition.setY(value * SLIDER_INTERVAL);
+    });
+    connect(p_FluidYSlider, &QSlider::sliderReleased, this, [this]() {
         emit animationParametersChanged(animationParameters());
     });
     connect(p_FluidDensitySlider, &QSlider::valueChanged, this, [this](int value) {
         m_Params.fluidDensity = value * SLIDER_INTERVAL;
+    });
+    connect(p_FluidDensitySlider, &QSlider::sliderReleased, this, [this]() {
         emit animationParametersChanged(animationParameters());
     });
     connect(p_ViscositySlider, &QSlider::valueChanged, this, [this](int value) {

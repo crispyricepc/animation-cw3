@@ -11,13 +11,42 @@
 #include <Qt3DRender/QMesh>
 
 namespace animation_cw3 {
+QList<Particle*>& addParticlesToScene(Qt3DCore::QEntity* sceneEntity, QList<Particle*>& particles,
+    const AnimationParameters& params)
+{
+    for (auto particle : particles) {
+        particle->deleteLater();
+    }
+
+    // Setup the list
+    particles.clear();
+    uint fluidWidth = params.fluidDimensions.x() * params.fluidDensity;
+    uint fluidHeight = params.fluidDimensions.y() * params.fluidDensity;
+    particles.reserve(fluidWidth * fluidHeight);
+
+    // Create the particles
+    for (uint i = 0; i < fluidWidth; ++i) {
+        for (uint j = 0; j < fluidHeight; ++j) {
+            auto particle = new Particle(sceneEntity,
+                params,
+                QVector2D(
+                    (i / params.fluidDensity - params.fluidDimensions.x() / 2) + params.initialWaterPosition.x(),
+                    (j / params.fluidDensity - params.fluidDimensions.y() / 2) + params.initialWaterPosition.y()),
+                QVector2D(1 / params.fluidDensity, 1 / params.fluidDensity));
+            particles.append(particle);
+        }
+    }
+
+    return particles;
+}
+
 Animation::Animation(Qt3DExtras::Qt3DWindow* window)
     : Qt3DCore::QEntity()
     , p_Container(new Qt3DCore::QEntity(this))
 {
     // Load the container 2D model
     auto meshLoader = new Qt3DRender::QMesh(p_Container);
-    auto material = new Qt3DExtras::QPhongMaterial(this);
+    auto material = new Qt3DExtras::QPhongMaterial(p_Container);
     auto transform = new Qt3DCore::QTransform(p_Container);
     meshLoader->setSource(QUrl("qrc:/objects/container.obj"));
     transform->setTranslation(QVector3D(0, 0, 0));
@@ -42,10 +71,21 @@ Animation::Animation(Qt3DExtras::Qt3DWindow* window)
 
 void Animation::onAnimationParametersChanged(const AnimationParameters& params)
 {
-    auto transform = p_Container->componentsOfType<Qt3DCore::QTransform>()[0];
-    transform->setScale3D(QVector3D(
-        params.tankDimensions.x(),
-        params.tankDimensions.y(),
-        1));
+    if (params.tankDimensions != m_AnimationParametersDelta.tankDimensions) {
+        auto containerTransform = p_Container->componentsOfType<Qt3DCore::QTransform>()[0];
+        containerTransform->setScale3D(QVector3D(
+            params.tankDimensions.x(),
+            params.tankDimensions.y(),
+            1));
+    }
+
+    if (!params.isRunning
+        && (m_AnimationParametersDelta.fluidDimensions != params.fluidDimensions
+            || m_AnimationParametersDelta.fluidDensity != params.fluidDensity
+            || m_AnimationParametersDelta.initialWaterPosition != params.initialWaterPosition)) {
+        addParticlesToScene(this, m_Particles, params);
+    }
+
+    m_AnimationParametersDelta = params;
 }
 }

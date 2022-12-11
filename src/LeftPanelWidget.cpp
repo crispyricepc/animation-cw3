@@ -49,16 +49,15 @@ LeftPanelWidget::LeftPanelWidget(MainWindow* parent)
         startButton->setEnabled(false);
         pauseButton->setEnabled(true);
         resetButton->setEnabled(true);
+        m_Params.isRunning = true;
         emit startAnimation();
     });
     connect(pauseButton, &QPushButton::clicked, this, [this, pauseButton] {
         if (m_Params.isRunning) {
             pauseButton->setText("Resume");
-            m_Params.isRunning = false;
             emit pauseAnimation();
         } else {
             pauseButton->setText("Pause");
-            m_Params.isRunning = true;
             emit resumeAnimation();
         }
     });
@@ -67,6 +66,7 @@ LeftPanelWidget::LeftPanelWidget(MainWindow* parent)
         pauseButton->setEnabled(false);
         pauseButton->setText("Pause");
         resetButton->setEnabled(false);
+        m_Params.isRunning = false;
         emit resetAnimation();
     });
     buttonGroupBox->setLayout(new QHBoxLayout(buttonGroupBox));

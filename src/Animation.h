@@ -1,7 +1,9 @@
 #pragma once
 
 #include "AnimationParameters.h"
+#include "Particle.h"
 
+#include <QList>
 #include <Qt3DCore/QEntity>
 #include <Qt3DExtras/Qt3DWindow>
 
@@ -10,6 +12,10 @@ class Animation : public Qt3DCore::QEntity {
     Q_OBJECT
 private:
     Qt3DCore::QEntity* p_Container;
+    QList<Particle*> m_Particles;
+
+    // Old parameters to be compared with when the parameters change
+    AnimationParameters m_AnimationParametersDelta;
 
 public:
     Animation(Qt3DExtras::Qt3DWindow* window);

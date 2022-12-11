@@ -12,7 +12,11 @@ private:
     const AnimationParameters& m_AnimationParameters;
 
 public:
-    Particle(Qt3DCore::QEntity* parent, const AnimationParameters& animationParameters);
+    Particle(
+        Qt3DCore::QEntity* parent,
+        const AnimationParameters& animationParameters,
+        const QVector2D& initialPosition = { 0, 0 },
+        const QVector2D& scale = { 1, 1 });
 
     inline const AnimationParameters& animationParameters() const { return m_AnimationParameters; }
 

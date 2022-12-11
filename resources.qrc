@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="/">
     <file>objects/container.obj</file>
+    <file>objects/particle.obj</file>
   </qresource>
 </RCC>

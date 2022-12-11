@@ -20,6 +20,7 @@ sources = [
   'src/Animation.cpp',
   'src/LeftPanelWidget.cpp',
   'src/MainWindow.cpp',
+  'src/Particle.cpp',
 ]
 
 executable('animation-cw3',

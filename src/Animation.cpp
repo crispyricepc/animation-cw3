@@ -11,17 +11,46 @@
 #include <Qt3DRender/QMesh>
 
 namespace animation_cw3 {
+QList<Particle*>& translateParticles(QList<Particle*>& particles, const AnimationParameters& params)
+{
+    for (uint i = 0; i < particles.size(); i++) {
+        auto particle = particles[i];
+        auto transform = particle->componentsOfType<Qt3DCore::QTransform>()[0];
+
+        // Get the 2D index of the particle
+        uint x = i % uint(params.fluidDimensions.x() * params.fluidDensity);
+        uint y = i / (params.fluidDimensions.x() * params.fluidDensity);
+
+        // Get the translation
+        float xTranslation = x / params.fluidDensity;
+        float yTranslation = y / params.fluidDensity;
+
+        // Translate the particle
+        transform->setTranslation(QVector3D(
+            QVector2D(
+                xTranslation,
+                yTranslation)
+                + params.initialWaterPosition,
+            0));
+    }
+
+    return particles;
+}
+
 QList<Particle*>& addParticlesToScene(Qt3DCore::QEntity* sceneEntity, QList<Particle*>& particles,
     const AnimationParameters& params)
 {
+    qInfo() << "Recreating particles...";
+
+    // Setup the list
+    qInfo() << "Deleting" << particles.size() << "particles...";
     for (auto particle : particles) {
         particle->deleteLater();
     }
-
-    // Setup the list
     particles.clear();
     uint fluidWidth = params.fluidDimensions.x() * params.fluidDensity;
     uint fluidHeight = params.fluidDimensions.y() * params.fluidDensity;
+    qInfo() << "Creating" << fluidWidth * fluidHeight << "particles...";
     particles.reserve(fluidWidth * fluidHeight);
 
     // Create the particles
@@ -29,9 +58,7 @@ QList<Particle*>& addParticlesToScene(Qt3DCore::QEntity* sceneEntity, QList<Part
         for (uint j = 0; j < fluidHeight; ++j) {
             auto particle = new Particle(sceneEntity,
                 params,
-                QVector2D(
-                    (i / params.fluidDensity - params.fluidDimensions.x() / 2) + params.initialWaterPosition.x(),
-                    (j / params.fluidDensity - params.fluidDimensions.y() / 2) + params.initialWaterPosition.y()),
+                { 0, 0 },
                 QVector2D(1 / params.fluidDensity, 1 / params.fluidDensity));
             particles.append(particle);
         }
@@ -79,11 +106,19 @@ void Animation::onAnimationParametersChanged(const AnimationParameters& params)
             1));
     }
 
-    if (!params.isRunning
-        && (m_AnimationParametersDelta.fluidDimensions != params.fluidDimensions
-            || m_AnimationParametersDelta.fluidDensity != params.fluidDensity
-            || m_AnimationParametersDelta.initialWaterPosition != params.initialWaterPosition)) {
+    if (params.isRunning) {
+        return;
+    }
+
+    bool needsRegen = m_AnimationParametersDelta.fluidDimensions != params.fluidDimensions
+        || m_AnimationParametersDelta.fluidDensity != params.fluidDensity;
+    if (needsRegen) {
         addParticlesToScene(this, m_Particles, params);
+    }
+
+    if (m_AnimationParametersDelta.initialWaterPosition != params.initialWaterPosition
+        || needsRegen) {
+        translateParticles(m_Particles, params);
     }
 
     m_AnimationParametersDelta = params;

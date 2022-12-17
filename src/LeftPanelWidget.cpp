@@ -113,14 +113,10 @@ LeftPanelWidget::LeftPanelWidget(MainWindow* parent)
     });
     connect(p_FluidXSlider, &QSlider::valueChanged, this, [this](int value) {
         m_Params.initialWaterPosition.setX(value * SLIDER_INTERVAL);
-    });
-    connect(p_FluidXSlider, &QSlider::sliderReleased, this, [this]() {
         emit animationParametersChanged(animationParameters());
     });
     connect(p_FluidYSlider, &QSlider::valueChanged, this, [this](int value) {
         m_Params.initialWaterPosition.setY(value * SLIDER_INTERVAL);
-    });
-    connect(p_FluidYSlider, &QSlider::sliderReleased, this, [this]() {
         emit animationParametersChanged(animationParameters());
     });
     connect(p_FluidDensitySlider, &QSlider::valueChanged, this, [this](int value) {

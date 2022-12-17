@@ -30,7 +30,7 @@ QList<Particle*>& translateParticles(QList<Particle*>& particles, const Animatio
             QVector2D(
                 xTranslation,
                 yTranslation)
-                + params.initialWaterPosition,
+                + (params.initialWaterPosition - params.fluidDimensions / 2),
             0));
     }
 

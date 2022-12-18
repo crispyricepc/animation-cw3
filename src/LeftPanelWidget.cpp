@@ -7,7 +7,6 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QSlider>
-#include <QVBoxLayout>
 
 namespace animation_cw3 {
 const float SLIDER_INTERVAL = .01;
@@ -22,10 +21,10 @@ QSlider* createLabelledSlider(
     label->setMinimumWidth(55);
     auto slider = new QSlider(Qt::Orientation::Horizontal, parent);
 
-    QObject::connect(slider, &QSlider::valueChanged, [slider, label, name]() {
+    QObject::connect(slider, &QSlider::valueChanged, parent, [slider, label, name]() {
         label->setText(QString("%1: %2")
                            .arg(name)
-                           .arg(slider->value() * SLIDER_INTERVAL));
+                           .arg(float(slider->value()) * SLIDER_INTERVAL));
     });
 
     sliderLayout->addWidget(label);
@@ -90,47 +89,53 @@ LeftPanelWidget::LeftPanelWidget(MainWindow* parent)
     p_FluidDensitySlider = createLabelledSlider("g", sliderGroupBox, sliderGroupBox->layout());
     p_ViscositySlider = createLabelledSlider("μ", sliderGroupBox, sliderGroupBox->layout());
     p_DeltaSlider = createLabelledSlider("Δ", sliderGroupBox, sliderGroupBox->layout());
+    sliderGroupBox->layout()->addWidget(new QLabel("Gravity", sliderGroupBox));
+    p_GravitySlider = createLabelledSlider("g", sliderGroupBox, sliderGroupBox->layout());
 
     connect(p_TankWidthSlider, &QSlider::valueChanged, this, [this](int value) {
-        m_Params.tankDimensions.setX(value * SLIDER_INTERVAL);
+        m_Params.tankDimensions.setX(float(value) * SLIDER_INTERVAL);
         emit animationParametersChanged(animationParameters());
     });
     connect(p_TankHeightSlider, &QSlider::valueChanged, this, [this](int value) {
-        m_Params.tankDimensions.setY(value * SLIDER_INTERVAL);
+        m_Params.tankDimensions.setY(float(value) * SLIDER_INTERVAL);
         emit animationParametersChanged(animationParameters());
     });
     connect(p_FluidWidthSlider, &QSlider::valueChanged, this, [this](int value) {
-        m_Params.fluidDimensions.setX(value * SLIDER_INTERVAL);
+        m_Params.fluidDimensions.setX(float(value) * SLIDER_INTERVAL);
     });
     connect(p_FluidWidthSlider, &QSlider::sliderReleased, this, [this]() {
         emit animationParametersChanged(animationParameters());
     });
     connect(p_FluidHeightSlider, &QSlider::valueChanged, this, [this](int value) {
-        m_Params.fluidDimensions.setY(value * SLIDER_INTERVAL);
+        m_Params.fluidDimensions.setY(float(value) * SLIDER_INTERVAL);
     });
     connect(p_FluidHeightSlider, &QSlider::sliderReleased, this, [this]() {
         emit animationParametersChanged(animationParameters());
     });
     connect(p_FluidXSlider, &QSlider::valueChanged, this, [this](int value) {
-        m_Params.initialWaterPosition.setX(value * SLIDER_INTERVAL);
+        m_Params.initialWaterPosition.setX(float(value) * SLIDER_INTERVAL);
         emit animationParametersChanged(animationParameters());
     });
     connect(p_FluidYSlider, &QSlider::valueChanged, this, [this](int value) {
-        m_Params.initialWaterPosition.setY(value * SLIDER_INTERVAL);
+        m_Params.initialWaterPosition.setY(float(value) * SLIDER_INTERVAL);
         emit animationParametersChanged(animationParameters());
     });
     connect(p_FluidDensitySlider, &QSlider::valueChanged, this, [this](int value) {
-        m_Params.fluidDensity = value * SLIDER_INTERVAL;
+        m_Params.fluidDensity = float(value) * SLIDER_INTERVAL;
     });
     connect(p_FluidDensitySlider, &QSlider::sliderReleased, this, [this]() {
         emit animationParametersChanged(animationParameters());
     });
     connect(p_ViscositySlider, &QSlider::valueChanged, this, [this](int value) {
-        m_Params.viscosity = value * SLIDER_INTERVAL;
+        m_Params.viscosity = float(value) * SLIDER_INTERVAL;
         emit animationParametersChanged(animationParameters());
     });
     connect(p_DeltaSlider, &QSlider::valueChanged, this, [this](int value) {
-        m_Params.delta = value * SLIDER_INTERVAL;
+        m_Params.delta = float(value) * SLIDER_INTERVAL;
+        emit animationParametersChanged(animationParameters());
+    });
+    connect(p_GravitySlider, &QSlider::valueChanged, this, [this](int value) {
+        m_Params.gravity = float(value) * SLIDER_INTERVAL;
         emit animationParametersChanged(animationParameters());
     });
 
@@ -177,6 +182,11 @@ void LeftPanelWidget::setDeltaRange(float min, float max)
     p_DeltaSlider->setRange(min / SLIDER_INTERVAL, max / SLIDER_INTERVAL);
 }
 
+void LeftPanelWidget::setGravityRange(float min, float max)
+{
+    p_GravitySlider->setRange(min / SLIDER_INTERVAL, max / SLIDER_INTERVAL);
+}
+
 void LeftPanelWidget::setTankDimensions(const QVector2D& dimensions)
 {
     p_TankWidthSlider->setValue(dimensions.x() / SLIDER_INTERVAL);
@@ -208,5 +218,9 @@ void LeftPanelWidget::setViscosity(float viscosity)
 void LeftPanelWidget::setDelta(float delta)
 {
     p_DeltaSlider->setValue(delta / SLIDER_INTERVAL);
+}
+void LeftPanelWidget::setGravity(float gravity)
+{
+    p_GravitySlider->setValue(gravity / SLIDER_INTERVAL);
 }
 }

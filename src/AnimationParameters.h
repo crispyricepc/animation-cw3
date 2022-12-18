@@ -8,10 +8,12 @@ struct AnimationParameters {
     QVector2D fluidDimensions; // Initial dimensions of the fluid in the tank in meters
     QVector2D initialWaterPosition; // Initial position of the fluid in the tank in meters
 
-    float fluidDensity; // External force density field
-    float viscosity; // Viscosity of the fluid
-    float delta; // Time step, increase or decrease to slow down or speed up the simulation
+    float fluidDensity = 0; // External force density field
+    float viscosity = 0; // Viscosity of the fluid
+    float delta = 0; // Time step, increase or decrease to slow down or speed up the simulation
 
-    bool isRunning; // Is the animation currently running
+    float gravity = 0; // Gravity constant
+
+    bool isRunning = false; // Is the animation currently running
 };
 }

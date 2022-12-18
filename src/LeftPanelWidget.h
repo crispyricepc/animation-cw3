@@ -23,8 +23,10 @@ private:
     QSlider* p_ViscositySlider;
     QSlider* p_DeltaSlider;
 
+    QSlider* p_GravitySlider;
+
 public:
-    LeftPanelWidget(class MainWindow* parent = nullptr);
+    explicit LeftPanelWidget(class MainWindow* parent = nullptr);
 
     inline const AnimationParameters& animationParameters() { return m_Params; }
 
@@ -34,6 +36,7 @@ public:
     void setFluidDensityRange(float min, float max);
     void setViscosityRange(float min, float max);
     void setDeltaRange(float min, float max);
+    void setGravityRange(float min, float max);
 
     void setTankDimensions(const QVector2D& dimensions);
     void setWaterDimensions(const QVector2D& dimensions);
@@ -41,6 +44,7 @@ public:
     void setFluidDensity(float density);
     void setViscosity(float viscosity);
     void setDelta(float delta);
+    void setGravity(float gravity);
 
 signals:
     void startAnimation();

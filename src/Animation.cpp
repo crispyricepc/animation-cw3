@@ -7,19 +7,18 @@
 #include <Qt3DExtras/QPhongMaterial>
 #include <Qt3DExtras/Qt3DWindow>
 #include <Qt3DRender/QCamera>
-#include <Qt3DRender/QMaterial>
 #include <Qt3DRender/QMesh>
 
 namespace animation_cw3 {
 QList<Particle*>& translateParticles(QList<Particle*>& particles, const AnimationParameters& params)
 {
-    for (uint i = 0; i < particles.size(); i++) {
+    for (int i = 0; i < particles.size(); i++) {
         auto particle = particles[i];
         auto transform = particle->componentsOfType<Qt3DCore::QTransform>()[0];
 
         // Get the 2D index of the particle
-        uint x = i % uint(params.fluidDimensions.x() * params.fluidDensity);
-        uint y = i / (params.fluidDimensions.x() * params.fluidDensity);
+        int x = i % int(params.fluidDimensions.x() * params.fluidDensity);
+        int y = i / int(params.fluidDimensions.x() * params.fluidDensity);
 
         // Get the translation
         float xTranslation = x / params.fluidDensity;
@@ -42,20 +41,20 @@ QList<Particle*>& addParticlesToScene(Qt3DCore::QEntity* sceneEntity, QList<Part
 {
     qInfo() << "Recreating particles...";
 
-    // Setup the list
+    // Set up the list
     qInfo() << "Deleting" << particles.size() << "particles...";
     for (auto particle : particles) {
         particle->deleteLater();
     }
     particles.clear();
-    uint fluidWidth = params.fluidDimensions.x() * params.fluidDensity;
-    uint fluidHeight = params.fluidDimensions.y() * params.fluidDensity;
+    int fluidWidth = int(params.fluidDimensions.x() * params.fluidDensity);
+    int fluidHeight = int(params.fluidDimensions.y() * params.fluidDensity);
     qInfo() << "Creating" << fluidWidth * fluidHeight << "particles...";
     particles.reserve(fluidWidth * fluidHeight);
 
     // Create the particles
-    for (uint i = 0; i < fluidWidth; ++i) {
-        for (uint j = 0; j < fluidHeight; ++j) {
+    for (int i = 0; i < fluidWidth; ++i) {
+        for (int j = 0; j < fluidHeight; ++j) {
             auto particle = new Particle(sceneEntity,
                 params,
                 { 0, 0 },

@@ -26,9 +26,14 @@ Particle::Particle(
     meshLoader->setSource(QUrl("qrc:/objects/particle.obj"));
     addComponent(meshLoader);
 }
-
-void Particle::simulate()
+void Particle::simulate(kernel::KernelFunction kernelFunction)
 {
     qDebug() << "Particle::simulate()";
+
+    auto transform = componentsOfType<Qt3DCore::QTransform>()[0];
+    auto position = transform->translation();
+
+    auto newPosition = kernelFunction(position.toVector2D(), 10.f);
+    transform->setTranslation(QVector3D(newPosition, 0));
 }
 }

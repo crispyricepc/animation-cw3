@@ -1,6 +1,7 @@
 #pragma once
 
 #include "AnimationParameters.h"
+#include "Kernel.h"
 
 #include <Qt3DCore/QEntity>
 
@@ -20,6 +21,6 @@ public:
 
     inline const AnimationParameters& animationParameters() const { return m_AnimationParameters; }
 
-    void simulate();
+    void simulate(kernel::KernelFunction kernelFunction);
 };
 }

@@ -23,6 +23,7 @@ MainWindow::MainWindow(QWidget* parent)
 
     setWindowTitle("Animation CW3");
 
+    // NOLINTBEGIN(cppcoreguidelines-avoid-magic-numbers)
     p_LeftPanel->setTankDimensionRange({ .5, .5 }, { 10, 10 });
     p_LeftPanel->setWaterDimensionRange({ .3, .3 }, { 8, 8 });
     p_LeftPanel->setWaterPositionRange({ -4, -4 }, { 4, 4 });
@@ -37,8 +38,9 @@ MainWindow::MainWindow(QWidget* parent)
     p_LeftPanel->setViscosity(1);
     p_LeftPanel->setDelta(1);
     p_LeftPanel->setGravity(.1);
+    // NOLINTEND(cppcoreguidelines-avoid-magic-numbers)
 
-    auto layout = new QHBoxLayout(this);
+    auto* layout = new QHBoxLayout(this);
     setLayout(layout);
     layout->addWidget(p_LeftPanel);
     layout->addWidget(QWidget::createWindowContainer(p_3DWindow));
@@ -64,4 +66,4 @@ void MainWindow::onResetAnimation()
     p_Timer->stop();
     p_Animation->resetAnimation();
 }
-}
+} // namespace animation_cw3

@@ -29,4 +29,4 @@ private slots:
     void onResumeAnimation();
     void onResetAnimation();
 };
-}
+} // namespace animation_cw3

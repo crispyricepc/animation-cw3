@@ -11,11 +11,19 @@
 #include <Qt3DRender/QMesh>
 
 namespace animation_cw3 {
+const static float FOV = 45;
+const static float ASPECT_W = 16;
+const static float ASPECT_H = 9;
+const static float NEAR_PLANE = .1;
+const static float FAR_PLANE = 1000;
+const static float CAMERA_DISTANCE = 30;
+const static float CAMERA_SPEED = 50;
+
 QList<Particle*>& translateParticles(QList<Particle*>& particles, const AnimationParameters& params)
 {
     for (int i = 0; i < particles.size(); i++) {
-        auto particle = particles[i];
-        auto transform = particle->componentsOfType<Qt3DCore::QTransform>()[0];
+        auto* particle = particles[i];
+        auto* transform = particle->componentsOfType<Qt3DCore::QTransform>()[0];
 
         // Get the 2D index of the particle
         int x = i % int(params.fluidDimensions.x() * params.fluidDensity);
@@ -40,11 +48,8 @@ QList<Particle*>& translateParticles(QList<Particle*>& particles, const Animatio
 QList<Particle*>& addParticlesToScene(Qt3DCore::QEntity* sceneEntity, QList<Particle*>& particles,
     const AnimationParameters& params)
 {
-    qInfo() << "Recreating particles...";
-
-    // Set up the list
     qInfo() << "Deleting" << particles.size() << "particles...";
-    for (auto particle : particles) {
+    for (auto* particle : particles) {
         particle->deleteLater();
     }
     particles.clear();
@@ -56,7 +61,7 @@ QList<Particle*>& addParticlesToScene(Qt3DCore::QEntity* sceneEntity, QList<Part
     // Create the particles
     for (int i = 0; i < fluidWidth; ++i) {
         for (int j = 0; j < fluidHeight; ++j) {
-            auto particle = new Particle(sceneEntity,
+            auto* particle = new Particle(sceneEntity,
                 params,
                 { 0, 0 },
                 QVector2D(1 / params.fluidDensity, 1 / params.fluidDensity));
@@ -68,13 +73,12 @@ QList<Particle*>& addParticlesToScene(Qt3DCore::QEntity* sceneEntity, QList<Part
 }
 
 Animation::Animation(Qt3DExtras::Qt3DWindow* window)
-    : Qt3DCore::QEntity()
-    , p_Container(new Qt3DCore::QEntity(this))
+    : p_Container(new Qt3DCore::QEntity(this))
 {
     // Load the container 2D model
-    auto meshLoader = new Qt3DRender::QMesh(p_Container);
-    auto material = new Qt3DExtras::QPhongMaterial(p_Container);
-    auto transform = new Qt3DCore::QTransform(p_Container);
+    auto* meshLoader = new Qt3DRender::QMesh(p_Container);
+    auto* material = new Qt3DExtras::QPhongMaterial(p_Container);
+    auto* transform = new Qt3DCore::QTransform(p_Container);
     meshLoader->setSource(QUrl("qrc:/objects/container.obj"));
     transform->setTranslation(QVector3D(0, 0, 0));
     p_Container->addComponent(meshLoader);
@@ -83,17 +87,20 @@ Animation::Animation(Qt3DExtras::Qt3DWindow* window)
 
     // Camera
     Qt3DRender::QCamera* camera = window->camera();
-    camera->lens()->setPerspectiveProjection(45.0f, 16.0f / 9.0f, 0.1f, 1000.0f);
-    camera->setPosition(QVector3D(0, 0, 20));
+    camera->lens()->setPerspectiveProjection(FOV, ASPECT_H / ASPECT_W, NEAR_PLANE, FAR_PLANE);
+    camera->setPosition(QVector3D(0, 0, CAMERA_DISTANCE));
     camera->setViewCenter(QVector3D(0, 0, 0));
 
     // Camera controls
-    auto cameraController = new Qt3DExtras::QOrbitCameraController(this);
-    cameraController->setLinearSpeed(50.0f);
-    cameraController->setLookSpeed(180.0f);
+    auto* cameraController = new Qt3DExtras::QOrbitCameraController(this);
+    cameraController->setLinearSpeed(CAMERA_SPEED);
     cameraController->setCamera(camera);
 
     window->setRootEntity(this);
+}
+
+QVector2D Animation::rigidForce(const QVector2D& position) const
+{
 }
 
 void Animation::simulate()
@@ -111,7 +118,7 @@ void Animation::resetAnimation()
 void Animation::onAnimationParametersChanged(const AnimationParameters& params)
 {
     if (params.tankDimensions != m_AnimationParametersDelta.tankDimensions) {
-        auto containerTransform = p_Container->componentsOfType<Qt3DCore::QTransform>()[0];
+        auto* containerTransform = p_Container->componentsOfType<Qt3DCore::QTransform>()[0];
         containerTransform->setScale3D(QVector3D(
             params.tankDimensions.x(),
             params.tankDimensions.y(),
@@ -135,4 +142,4 @@ void Animation::onAnimationParametersChanged(const AnimationParameters& params)
 
     m_AnimationParametersDelta = params;
 }
-}
+} // namespace animation_cw3

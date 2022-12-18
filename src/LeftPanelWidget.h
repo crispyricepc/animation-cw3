@@ -54,4 +54,4 @@ signals:
 
     void animationParametersChanged(const AnimationParameters& params);
 };
-}
+} // namespace animation_cw3

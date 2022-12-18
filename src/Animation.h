@@ -9,7 +9,9 @@
 
 namespace animation_cw3 {
 class Animation : public Qt3DCore::QEntity {
+    // NOLINTNEXTLINE
     Q_OBJECT
+
 private:
     Qt3DCore::QEntity* p_Container;
     QList<Particle*> m_Particles;
@@ -20,9 +22,11 @@ private:
 public:
     explicit Animation(Qt3DExtras::Qt3DWindow* window);
 
+    [[nodiscard]] QVector2D rigidForce(const QVector2D& position) const;
+
 public slots:
     void simulate();
     void resetAnimation();
     void onAnimationParametersChanged(const AnimationParameters& params);
 };
-}
+} // namespace animation_cw3

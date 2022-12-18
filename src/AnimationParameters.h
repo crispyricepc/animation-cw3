@@ -16,4 +16,4 @@ struct AnimationParameters {
 
     bool isRunning = false; // Is the animation currently running
 };
-}
+} // namespace animation_cw3

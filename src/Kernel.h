@@ -11,5 +11,5 @@ QVector2D viscosity(const QVector2D& position, float radius);
  * @brief A kernel function that takes a position @c r
  * and a radius @c h and returns a vector.
  */
-typedef QVector2D (*KernelFunction)(const QVector2D&, float);
-}
+using KernelFunction = QVector2D (*)(const QVector2D&, float);
+} // namespace animation_cw3::kernel

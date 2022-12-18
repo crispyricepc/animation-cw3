@@ -24,6 +24,16 @@ sources = [
   'src/Particle.cpp',
 ]
 
+clangtidy = find_program('clang-tidy', required: false)
+if clangtidy.found()
+    run_target(
+        'tidy',
+        command: [
+            clangtidy,
+            '-p', meson.build_root()
+        ] + sources)
+endif
+
 executable('animation-cw3',
   sources : sources + qobjects + qrc,
   dependencies : [

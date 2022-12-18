@@ -23,4 +23,4 @@ public:
 
     void simulate();
 };
-}
+} // namespace animation_cw3

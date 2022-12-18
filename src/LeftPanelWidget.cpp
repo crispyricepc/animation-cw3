@@ -10,6 +10,8 @@
 
 namespace animation_cw3 {
 const float SLIDER_INTERVAL = .01;
+const int LABEL_WIDTH = 55;
+const int WIDGET_WIDTH = 350;
 
 QSlider* createLabelledSlider(
     const QString& name,
@@ -17,9 +19,9 @@ QSlider* createLabelledSlider(
     QLayout* layout)
 {
     QLayout* sliderLayout = new QHBoxLayout();
-    auto label = new QLabel(name, parent);
-    label->setMinimumWidth(55);
-    auto slider = new QSlider(Qt::Orientation::Horizontal, parent);
+    auto* label = new QLabel(name, parent);
+    label->setMinimumWidth(LABEL_WIDTH);
+    auto* slider = new QSlider(Qt::Orientation::Horizontal, parent);
 
     QObject::connect(slider, &QSlider::valueChanged, parent, [slider, label, name]() {
         label->setText(QString("%1: %2")
@@ -37,13 +39,13 @@ QSlider* createLabelledSlider(
 LeftPanelWidget::LeftPanelWidget(MainWindow* parent)
     : QWidget(parent)
 {
-    setMaximumWidth(350);
+    setMaximumWidth(WIDGET_WIDTH);
 
     // Buttons
-    auto buttonGroupBox = new QGroupBox("Animation Controls", this);
-    auto startButton = new QPushButton("Start", buttonGroupBox);
-    auto pauseButton = new QPushButton("Pause", buttonGroupBox);
-    auto resetButton = new QPushButton("Reset", buttonGroupBox);
+    auto* buttonGroupBox = new QGroupBox("Animation Controls", this);
+    auto* startButton = new QPushButton("Start", buttonGroupBox);
+    auto* pauseButton = new QPushButton("Pause", buttonGroupBox);
+    auto* resetButton = new QPushButton("Reset", buttonGroupBox);
     connect(startButton, &QPushButton::clicked, this, [this, startButton, pauseButton, resetButton] {
         startButton->setEnabled(false);
         pauseButton->setEnabled(true);
@@ -74,7 +76,7 @@ LeftPanelWidget::LeftPanelWidget(MainWindow* parent)
     buttonGroupBox->layout()->addWidget(resetButton);
 
     // Sliders
-    auto sliderGroupBox = new QGroupBox("Animation Parameters", this);
+    auto* sliderGroupBox = new QGroupBox("Animation Parameters", this);
     sliderGroupBox->setLayout(new QVBoxLayout(sliderGroupBox));
     sliderGroupBox->layout()->addWidget(new QLabel("Tank Dimensions", sliderGroupBox));
     p_TankWidthSlider = createLabelledSlider("W", sliderGroupBox, sliderGroupBox->layout());
@@ -223,4 +225,4 @@ void LeftPanelWidget::setGravity(float gravity)
 {
     p_GravitySlider->setValue(gravity / SLIDER_INTERVAL);
 }
-}
+} // namespace animation_cw3

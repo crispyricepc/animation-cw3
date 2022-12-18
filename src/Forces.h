@@ -4,4 +4,4 @@
 
 namespace animation_cw3::forces {
 QVector2D gravity(float gravity);
-}
+} // namespace animation_cw3::forces

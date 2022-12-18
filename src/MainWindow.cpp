@@ -26,7 +26,7 @@ MainWindow::MainWindow(QWidget* parent)
     p_LeftPanel->setDeltaRange(0.1, 10);
     p_LeftPanel->setTankDimensions({ 5, 5 });
     p_LeftPanel->setWaterDimensions({ 2, 3 });
-    p_LeftPanel->setWaterPosition({ 4, -2 });
+    p_LeftPanel->setWaterPosition({ -1, 2 });
     p_LeftPanel->setFluidDensity(5);
     p_LeftPanel->setViscosity(1);
     p_LeftPanel->setDelta(1);

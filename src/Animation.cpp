@@ -2,6 +2,7 @@
 
 #include "MainWindow.h"
 
+#include <QTimer>
 #include <Qt3DCore/QTransform>
 #include <Qt3DExtras/QOrbitCameraController>
 #include <Qt3DExtras/QPhongMaterial>
@@ -93,6 +94,18 @@ Animation::Animation(Qt3DExtras::Qt3DWindow* window)
     cameraController->setCamera(camera);
 
     window->setRootEntity(this);
+}
+
+void Animation::simulate()
+{
+    for (const auto& particle : m_Particles) {
+        particle->simulate();
+    }
+}
+
+void Animation::resetAnimation()
+{
+    translateParticles(m_Particles, m_AnimationParametersDelta);
 }
 
 void Animation::onAnimationParametersChanged(const AnimationParameters& params)

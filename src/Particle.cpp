@@ -1,5 +1,7 @@
 #include "Particle.h"
 
+#include "Forces.h"
+
 #include <Qt3DCore/QTransform>
 #include <Qt3DExtras/QPhongMaterial>
 #include <Qt3DRender/QMesh>
@@ -26,14 +28,11 @@ Particle::Particle(
     meshLoader->setSource(QUrl("qrc:/objects/particle.obj"));
     addComponent(meshLoader);
 }
-void Particle::simulate(kernel::KernelFunction kernelFunction)
+void Particle::simulate()
 {
-    qDebug() << "Particle::simulate()";
-
     auto transform = componentsOfType<Qt3DCore::QTransform>()[0];
-    auto position = transform->translation();
+    auto gravity = forces::gravity(m_AnimationParameters.gravity);
 
-    auto newPosition = kernelFunction(position.toVector2D(), 10.f);
-    transform->setTranslation(QVector3D(newPosition, 0));
+    transform->setTranslation(transform->translation() + QVector3D(gravity, 0));
 }
 }

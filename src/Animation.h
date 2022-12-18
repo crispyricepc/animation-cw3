@@ -21,6 +21,8 @@ public:
     Animation(Qt3DExtras::Qt3DWindow* window);
 
 public slots:
+    void simulate();
+    void resetAnimation();
     void onAnimationParametersChanged(const AnimationParameters& params);
 };
 }

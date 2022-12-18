@@ -21,6 +21,6 @@ public:
 
     inline const AnimationParameters& animationParameters() const { return m_AnimationParameters; }
 
-    void simulate(kernel::KernelFunction kernelFunction);
+    void simulate();
 };
 }

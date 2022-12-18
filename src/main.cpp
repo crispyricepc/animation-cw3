@@ -8,8 +8,8 @@ int main(int argc, char* argv[])
 {
     QApplication app(argc, argv);
     auto mainWindow = new MainWindow();
-    app.setActiveWindow(mainWindow);
+    QApplication::setActiveWindow(mainWindow);
     mainWindow->show();
-    app.exec();
+    QApplication::exec();
     return 0;
 }

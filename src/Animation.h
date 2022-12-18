@@ -18,7 +18,7 @@ private:
     AnimationParameters m_AnimationParametersDelta;
 
 public:
-    Animation(Qt3DExtras::Qt3DWindow* window);
+    explicit Animation(Qt3DExtras::Qt3DWindow* window);
 
 public slots:
     void simulate();

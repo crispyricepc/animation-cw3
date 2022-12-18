@@ -2,8 +2,6 @@
 
 #include <QCoreApplication>
 #include <QTimer>
-#include <Qt3DExtras/QOrbitCameraController>
-#include <Qt3DExtras/QPhongMaterial>
 #include <Qt3DRender/QCamera>
 #include <Qt3DRender/QMesh>
 

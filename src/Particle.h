@@ -19,7 +19,7 @@ public:
         const QVector2D& initialPosition = { 0, 0 },
         const QVector2D& scale = { 1, 1 });
 
-    inline const AnimationParameters& animationParameters() const { return m_AnimationParameters; }
+    [[nodiscard]] inline const AnimationParameters& animationParameters() const { return m_AnimationParameters; }
 
     void simulate();
 };

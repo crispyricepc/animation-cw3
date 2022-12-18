@@ -21,7 +21,7 @@ private:
     Animation* p_Animation;
 
 public:
-    MainWindow(QWidget* parent = nullptr);
+    explicit MainWindow(QWidget* parent = nullptr);
 
 private slots:
     void onStartAnimation();

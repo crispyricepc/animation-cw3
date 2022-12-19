@@ -1,5 +1,6 @@
 #include "Animation.h"
 
+#include "ContainerComponent.h"
 #include "MainWindow.h"
 
 #include <QTimer>
@@ -79,11 +80,13 @@ Animation::Animation(Qt3DExtras::Qt3DWindow* window)
     auto* meshLoader = new Qt3DRender::QMesh(p_Container);
     auto* material = new Qt3DExtras::QPhongMaterial(p_Container);
     auto* transform = new Qt3DCore::QTransform(p_Container);
+    auto* containerComponent = new ContainerComponent(this, p_Container);
     meshLoader->setSource(QUrl("qrc:/objects/container.obj"));
     transform->setTranslation(QVector3D(0, 0, 0));
     p_Container->addComponent(meshLoader);
     p_Container->addComponent(material);
     p_Container->addComponent(transform);
+    p_Container->addComponent(containerComponent);
 
     // Camera
     Qt3DRender::QCamera* camera = window->camera();
@@ -118,11 +121,7 @@ void Animation::resetAnimation()
 void Animation::onAnimationParametersChanged(const AnimationParameters& params)
 {
     if (params.tankDimensions != m_AnimationParametersDelta.tankDimensions) {
-        auto* containerTransform = p_Container->componentsOfType<Qt3DCore::QTransform>()[0];
-        containerTransform->setScale3D(QVector3D(
-            params.tankDimensions.x(),
-            params.tankDimensions.y(),
-            1));
+        emit containerDimensionsChanged(params.tankDimensions);
     }
 
     if (params.isRunning) {

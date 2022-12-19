@@ -28,5 +28,8 @@ public slots:
     void simulate();
     void resetAnimation();
     void onAnimationParametersChanged(const AnimationParameters& params);
+
+signals:
+    void containerDimensionsChanged(const QVector2D& dimensions);
 };
 } // namespace animation_cw3

@@ -30,6 +30,7 @@ MainWindow::MainWindow(QWidget* parent)
     p_LeftPanel->setFluidDensityRange(1, 10);
     p_LeftPanel->setViscosityRange(0.1, 10);
     p_LeftPanel->setDeltaRange(0.1, 10);
+    p_LeftPanel->setPressureRange(.1, 2);
     p_LeftPanel->setGravityRange(.01, 1);
     p_LeftPanel->setTankDimensions({ 5, 5 });
     p_LeftPanel->setWaterDimensions({ 2, 3 });
@@ -37,6 +38,7 @@ MainWindow::MainWindow(QWidget* parent)
     p_LeftPanel->setFluidDensity(5);
     p_LeftPanel->setViscosity(1);
     p_LeftPanel->setDelta(1);
+    p_LeftPanel->setPressure(1);
     p_LeftPanel->setGravity(.1);
     // NOLINTEND(cppcoreguidelines-avoid-magic-numbers)
 

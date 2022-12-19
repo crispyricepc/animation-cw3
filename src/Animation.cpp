@@ -108,8 +108,9 @@ QVector2D Animation::rigidForce(const QVector2D& position) const
 
 void Animation::simulate()
 {
+    auto* container = p_Container->componentsOfType<ContainerComponent>()[0];
     for (const auto& particle : m_Particles) {
-        particle->simulate();
+        particle->simulate(container);
     }
 }
 

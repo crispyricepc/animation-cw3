@@ -1,6 +1,7 @@
 #pragma once
 
 #include "AnimationParameters.h"
+#include "ContainerComponent.h"
 #include "Kernel.h"
 
 #include <Qt3DCore/QEntity>
@@ -17,10 +18,10 @@ public:
         Qt3DCore::QEntity* parent,
         const AnimationParameters& animationParameters,
         const QVector2D& initialPosition = { 0, 0 },
-        const QVector2D& scale = { 1, 1 });
+        const QVector2D& scale = { .5, .5 });
 
     [[nodiscard]] inline const AnimationParameters& animationParameters() const { return m_AnimationParameters; }
 
-    void simulate();
+    void simulate(const ContainerComponent* container);
 };
 } // namespace animation_cw3

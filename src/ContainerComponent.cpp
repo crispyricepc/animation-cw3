@@ -16,16 +16,15 @@ QVector2D ContainerComponent::collideWith(const QVector2D& point) const
 {
     auto* transform = dynamic_cast<Qt3DCore::QEntity*>(parentNode())->componentsOfType<Qt3DCore::QTransform>()[0];
     auto position = transform->translation().toVector2D();
-    auto halfDimensions = m_Dimensions / 2.;
     auto relativePosition = point - position;
-    if (relativePosition.x() < -halfDimensions.x()) {
-        return { 1, 0 };
+    if (relativePosition.x() < -dimensions().x()) {
+        return { -dimensions().x(), point.y() };
     }
-    if (relativePosition.x() > halfDimensions.x()) {
-        return { -1, 0 };
+    if (relativePosition.x() > dimensions().x()) {
+        return { dimensions().x(), point.y() };
     }
-    if (relativePosition.y() < -halfDimensions.y()) {
-        return { 0, 1 };
+    if (relativePosition.y() < -dimensions().y()) {
+        return { point.x(), -dimensions().y() };
     }
 
     return point;

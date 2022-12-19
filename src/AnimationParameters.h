@@ -11,6 +11,7 @@ struct AnimationParameters {
     float fluidDensity = 0; // External force density field
     float viscosity = 0; // Viscosity of the fluid
     float delta = 0; // Time step, increase or decrease to slow down or speed up the simulation
+    float pressure = 0; // Pressure constant
 
     float gravity = 0; // Gravity constant
 

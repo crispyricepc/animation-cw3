@@ -22,7 +22,7 @@ private:
     QSlider* p_FluidDensitySlider;
     QSlider* p_ViscositySlider;
     QSlider* p_DeltaSlider;
-
+    QSlider* p_PressureSlider;
     QSlider* p_GravitySlider;
 
 public:
@@ -36,6 +36,7 @@ public:
     void setFluidDensityRange(float min, float max);
     void setViscosityRange(float min, float max);
     void setDeltaRange(float min, float max);
+    void setPressureRange(float min, float max);
     void setGravityRange(float min, float max);
 
     void setTankDimensions(const QVector2D& dimensions);
@@ -44,6 +45,7 @@ public:
     void setFluidDensity(float density);
     void setViscosity(float viscosity);
     void setDelta(float delta);
+    void setPressure(float pressure);
     void setGravity(float gravity);
 
 signals:

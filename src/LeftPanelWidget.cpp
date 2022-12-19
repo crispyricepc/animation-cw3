@@ -91,6 +91,7 @@ LeftPanelWidget::LeftPanelWidget(MainWindow* parent)
     p_FluidDensitySlider = createLabelledSlider("g", sliderGroupBox, sliderGroupBox->layout());
     p_ViscositySlider = createLabelledSlider("μ", sliderGroupBox, sliderGroupBox->layout());
     p_DeltaSlider = createLabelledSlider("Δ", sliderGroupBox, sliderGroupBox->layout());
+    p_PressureSlider = createLabelledSlider("P", sliderGroupBox, sliderGroupBox->layout());
     sliderGroupBox->layout()->addWidget(new QLabel("Gravity", sliderGroupBox));
     p_GravitySlider = createLabelledSlider("g", sliderGroupBox, sliderGroupBox->layout());
 
@@ -134,6 +135,10 @@ LeftPanelWidget::LeftPanelWidget(MainWindow* parent)
     });
     connect(p_DeltaSlider, &QSlider::valueChanged, this, [this](int value) {
         m_Params.delta = float(value) * SLIDER_INTERVAL;
+        emit animationParametersChanged(animationParameters());
+    });
+    connect(p_PressureSlider, &QSlider::valueChanged, this, [this](int value) {
+        m_Params.pressure = float(value) * SLIDER_INTERVAL;
         emit animationParametersChanged(animationParameters());
     });
     connect(p_GravitySlider, &QSlider::valueChanged, this, [this](int value) {
@@ -184,6 +189,11 @@ void LeftPanelWidget::setDeltaRange(float min, float max)
     p_DeltaSlider->setRange(min / SLIDER_INTERVAL, max / SLIDER_INTERVAL);
 }
 
+void LeftPanelWidget::setPressureRange(float min, float max)
+{
+    p_PressureSlider->setRange(min / SLIDER_INTERVAL, max / SLIDER_INTERVAL);
+}
+
 void LeftPanelWidget::setGravityRange(float min, float max)
 {
     p_GravitySlider->setRange(min / SLIDER_INTERVAL, max / SLIDER_INTERVAL);
@@ -221,6 +231,12 @@ void LeftPanelWidget::setDelta(float delta)
 {
     p_DeltaSlider->setValue(delta / SLIDER_INTERVAL);
 }
+
+void LeftPanelWidget::setPressure(float pressure)
+{
+    p_PressureSlider->setValue(pressure / SLIDER_INTERVAL);
+}
+
 void LeftPanelWidget::setGravity(float gravity)
 {
     p_GravitySlider->setValue(gravity / SLIDER_INTERVAL);

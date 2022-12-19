@@ -15,6 +15,8 @@ public:
     explicit ContainerComponent(const Animation* animation,
         Qt3DCore::QNode* parent = nullptr);
 
+    [[nodiscard]] inline const QVector2D& dimensions() const { return m_Dimensions; }
+
     /**
      * @brief Get a direction vector that is perpendicular to the surface of the rigid component
      */
